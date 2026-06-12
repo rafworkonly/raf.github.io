@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>{{ site.title }}{% if page.title and page.title != "" %} &mdash; {{ page.title }}{% endif %}</title>
+
+    {% if site.description %}<meta name="description" content="{{ site.description }}">{% endif %}  
+
+    <link rel="stylesheet" href="{{ '/assets/css/main.css' | absolute_url }}?{{ site.time | date: '%s%N' }}">
+
+    <link rel="apple-touch-icon" href="{{ site.icon }}">
+
+    {%- if jekyll.environment == 'production' and site.google_analytics -%}
+      {%- include google-analytics.html -%}
+    {%- endif -%}
+<meta property="og:title" content="{{ site.title }}">
+<meta property="og:description" content="{{ site.description }}">
+<meta property="og:image" content="{{ '/assets/images/preview.png' | absolute_url }}">
+<meta property="og:url" content="{{ page.url | absolute_url }}">
+  </head>
+  <body>
+
+
+
+    {{ content }}
+
+    {% unless site.hide_search %}
+      {% include search.html %}
+    {% endunless %}
+
+    {% include menu.html %}
+
+    {% unless site.hide_credits %}
+      <aside class="site-credits">
+        <p>
+          <small>Made by me using Hitchell theme from github as the base </small>
+        </p>
+      </aside>
+    {% endunless %}
+<div class="parallax-container">
+  <img src="/assets/images/pic1.png" class="parallax-img" style="top: 10%; left: 5%;">
+  <img src="/assets/images/pic2.png" class="parallax-img" style="top: 25%; right: 8%;">
+  <img src="/assets/images/pic3.png" class="parallax-img" style="top: 40%; left: 12%;">
+  <img src="/assets/images/pic4.png" class="parallax-img" style="top: 55%; right: 15%;">
+  <img src="/assets/images/pic5.png" class="parallax-img" style="top: 65%; left: 3%;">
+  <img src="/assets/images/pic6.png" class="parallax-img" style="top: 75%; right: 5%;">
+  <img src="/assets/images/pic7.png" class="parallax-img" style="top: 85%; left: 20%;">
+  <img src="/assets/images/pic8.png" class="parallax-img" style="top: 90%; right: 20%;">
+  <img src="/assets/images/pic9.png" class="parallax-img" style="top: 30%; left: 2%;">
+  <img src="/assets/images/pic10.png" class="parallax-img" style="top: 60%; right: 3%;">
+  <img src="/assets/images/pic11.png" class="parallax-img" style="top: 80%; left: 8%;">
+</div>
+
+<script>
+  window.addEventListener('scroll', function() {
+    var scrollY = window.scrollY;
+    document.querySelectorAll('.parallax-img').forEach(function(img, i) {
+      var speed = 0.05 + (i * 0.02);
+      img.style.transform = 'translateY(' + (scrollY * speed) + 'px)';
+    });
+  });
+</script>
+  </body>
+</html>
