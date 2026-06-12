@@ -17,7 +17,7 @@ title: Raf's Garden
 email: rafworkonly@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   Welcome to my personal corner of the internet.
-baseurl: "" # the subpath of your site, e.g. /blog
+baseurl: "/raf.github.io" # the subpath of your site, e.g. /blog
 url: "https://rafworkonly.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 icon: /assets/images/preview.png
 github_username:  rafworkonly
