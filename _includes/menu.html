@@ -1,5 +1,4 @@
 {% assign menu = site.data.menu %}
-
 {% if menu %}
   <nav class="site-navigation" role="navigation">
     <ul>
@@ -21,6 +20,10 @@
         {% endif %}
       </li>
     {% endfor %}
+      <li class="lang-toggle">
+        <button id="btn-en" class="lang-btn active" onclick="filterLang('en')">EN</button>
+        <button id="btn-ja" class="lang-btn" onclick="filterLang('ja')">日本語</button>
+      </li>
     </ul>
   </nav>
 {% endif %}
