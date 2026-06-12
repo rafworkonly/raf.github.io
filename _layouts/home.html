@@ -69,16 +69,20 @@ layout: default
 </main>
 
 <script>
-  var translations = {
+ var translations = {
     en: {
       title: "Raf 's Cave",
       description: "Have a look around.",
-      contents: "Contents"
+      contents: "Contents",
+      older: "Older",
+      newer: "Newer"
     },
     ja: {
       title: "ラフの洞窟",
       description: "ご自由に見て回ってください。",
-      contents: "目次"
+      contents: "目次",
+      older: "古い記事へ",
+      newer: "新しい記事へ"
     }
   };
 
@@ -91,5 +95,9 @@ layout: default
     document.querySelector('.site-masthead h1').textContent = translations[lang].title;
     document.querySelector('.site-masthead h2').textContent = translations[lang].description;
     document.querySelector('.content-title').textContent = translations[lang].contents;
+    var older = document.querySelector('.pagination-next');
+    var newer = document.querySelector('.pagination-previous');
+    if (older) older.innerHTML = '&lang;&nbsp;' + translations[lang].older;
+    if (newer) newer.innerHTML = translations[lang].newer + '&nbsp;&rang;';
   }
 </script>
