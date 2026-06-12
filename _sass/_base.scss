@@ -181,11 +181,9 @@ figcaption {
   }
 }
 .lang-toggle {
-  position: fixed;
-  top: 1em;
-  right: 1em;
-  margin-bottom: 2em;
-  z-index: 1000;
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 0;
 }
 
 .lang-btn {
