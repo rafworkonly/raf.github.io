@@ -1,7 +1,6 @@
 ---
 layout: default
 ---
-
 {% if site.data.menu and site.paginate and site.paginate_path and paginator.page > 1 %}
   {% include menu.html %}
 {% elsif site.paginate and site.paginate_path and paginator.page > 1 %}
@@ -21,9 +20,7 @@ layout: default
     {% endif %}
   </header>
 {% endif %}
-
 <main class="home" id="main" role="main" aria-label="Content">
-
   <h1 class="content-title divided">
     {% if site.paginate and site.paginate_path and paginator.page > 1 %}
       Page {{ paginator.page }}
@@ -32,19 +29,23 @@ layout: default
     {% endif %}
   </h1>
 
+  <div class="lang-toggle">
+    <button id="btn-en" class="lang-btn active" onclick="filterLang('en')">EN</button>
+    <button id="btn-ja" class="lang-btn" onclick="filterLang('ja')">日本語</button>
+  </div>
+
   {% if site.paginate and site.paginate_path %}
-    
-    <ul class="post-list">
+    <ul class="post-list" id="post-list">
       {% for post in paginator.posts %}
-        {% include post-list-item.html %}
+        <li data-lang="{{ post.lang | default: 'en' }}">
+          {% include post-list-item.html %}
+        </li>
       {% endfor %}
     </ul>
-
     {% if paginator.total_pages > 1 %}
-
       <div class="post-pagination">
         {% if paginator.next_page %}
-          <a href="{{ paginator.next_page_path | prepend: site.baseurl  }}" class="pagination-next btn">&lang;&nbsp;Older</a>
+          <a href="{{ paginator.next_page_path | prepend: site.baseurl }}" class="pagination-next btn">&lang;&nbsp;Older</a>
         {% else %}
           <span>&nbsp;</span>
         {% endif %}
@@ -55,18 +56,24 @@ layout: default
           <span>&nbsp;</span>
         {% endif %}
       </div>
-
     {% endif %}
-
   {% else %}
-
-    <ul class="post-list">
+    <ul class="post-list" id="post-list">
       {% for post in site.posts %}
-        {% include post-list-item.html %}
+        <li data-lang="{{ post.lang | default: 'en' }}">
+          {% include post-list-item.html %}
+        </li>
       {% endfor %}
     </ul>
-  
   {% endif %}
-    
-
 </main>
+
+<script>
+  function filterLang(lang) {
+    document.querySelectorAll('#post-list li').forEach(function(li) {
+      li.style.display = li.dataset.lang === lang ? '' : 'none';
+    });
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('btn-ja').classList.toggle('active', lang === 'ja');
+  }
+</script>
