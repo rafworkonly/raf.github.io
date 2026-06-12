@@ -28,18 +28,14 @@ layout: default
       Contents
     {% endif %}
   </h1>
-
   <div class="lang-toggle">
     <button id="btn-en" class="lang-btn active" onclick="filterLang('en')">EN</button>
     <button id="btn-ja" class="lang-btn" onclick="filterLang('ja')">日本語</button>
   </div>
-
   {% if site.paginate and site.paginate_path %}
     <ul class="post-list" id="post-list">
       {% for post in paginator.posts %}
-        <li data-lang="{{ post.lang | default: 'en' }}">
-          {% include post-list-item.html %}
-        </li>
+        {% include post-list-item.html %}
       {% endfor %}
     </ul>
     {% if paginator.total_pages > 1 %}
@@ -60,23 +56,20 @@ layout: default
   {% else %}
     <ul class="post-list" id="post-list">
       {% for post in site.posts %}
-        <li data-lang="{{ post.lang | default: 'en' }}">
-          {% include post-list-item.html %}
-        </li>
+        {% include post-list-item.html %}
       {% endfor %}
     </ul>
   {% endif %}
 </main>
-
 <script>
- var translations = {
+  var translations = {
     en: {
-      title: "Raf 's Cave",
+      title: "Raf's Cave",
       description: "Have a look around.",
       contents: "Contents",
       older: "Older",
       newer: "Newer"
-   },
+    },
     ja: {
       title: "ラフの洞窟",
       description: "ご自由に見て回ってください。",
@@ -85,7 +78,6 @@ layout: default
       newer: "新しい記事へ"
     }
   };
-
   function filterLang(lang) {
     localStorage.setItem('lang', lang);
     document.querySelectorAll('#post-list li').forEach(function(li) {
@@ -101,8 +93,6 @@ layout: default
     if (older) older.innerHTML = '&lang;&nbsp;' + translations[lang].older;
     if (newer) newer.innerHTML = translations[lang].newer + '&nbsp;&rang;';
   }
-
-  // Restore language on page load
   var savedLang = localStorage.getItem('lang') || 'en';
   document.addEventListener('DOMContentLoaded', function() {
     filterLang(savedLang);
