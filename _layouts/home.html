@@ -76,7 +76,7 @@ layout: default
       contents: "Contents",
       older: "Older",
       newer: "Newer"
-    },
+   },
     ja: {
       title: "ラフの洞窟",
       description: "ご自由に見て回ってください。",
@@ -87,6 +87,7 @@ layout: default
   };
 
   function filterLang(lang) {
+    localStorage.setItem('lang', lang);
     document.querySelectorAll('#post-list li').forEach(function(li) {
       li.style.display = li.dataset.lang === lang ? '' : 'none';
     });
@@ -100,4 +101,10 @@ layout: default
     if (older) older.innerHTML = '&lang;&nbsp;' + translations[lang].older;
     if (newer) newer.innerHTML = translations[lang].newer + '&nbsp;&rang;';
   }
+
+  // Restore language on page load
+  var savedLang = localStorage.getItem('lang') || 'en';
+  document.addEventListener('DOMContentLoaded', function() {
+    filterLang(savedLang);
+  });
 </script>
