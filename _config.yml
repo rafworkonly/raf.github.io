@@ -38,7 +38,7 @@ remote_theme: patdryburgh/hitchens
 #   - vendor/gems/
 #   - vendor/ruby/
 show_excerpts: true
-
+feed_icon: /assets/images/icon-512.png
 plugins:
   - jekyll-paginate
   - jekyll-remote-theme
