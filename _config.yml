@@ -37,6 +37,7 @@ remote_theme: patdryburgh/hitchens
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+show_excerpts: true
 
 plugins:
   - jekyll-paginate
