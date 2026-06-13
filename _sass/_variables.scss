@@ -2,7 +2,7 @@ $brand-color:         #291d14;
 $highlight:           lighten($brand-color, 35%);
 $text-color:          #ded7d2;
 $muted-text-color:    #b17169;
-$font-family:         "EB Garamond", Garamond, "Times New Roman", serif;
+$font-family: "EB Garamond", Garamond, "Times New Roman", "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
 
 $on-bigphone:         375px;
 $on-tablet:           768px;
