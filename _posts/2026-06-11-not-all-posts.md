@@ -5,8 +5,8 @@ author: "Raf"
 categories: opinion
 ---
 
-A Windowless Office
+How is it that a public space
 
 <!-- excerpt_separator -->
 
-Is it so different from a coffin?
+can feel so private?
