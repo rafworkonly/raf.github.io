@@ -28,10 +28,6 @@ layout: default
       Contents
     {% endif %}
   </h1>
-  <div class="lang-toggle">
-    <button id="btn-en" class="lang-btn active" onclick="filterLang('en')">EN</button>
-    <button id="btn-ja" class="lang-btn" onclick="filterLang('ja')">日本語</button>
-  </div>
   {% if site.paginate and site.paginate_path %}
     <ul class="post-list" id="post-list">
       {% for post in paginator.posts %}
