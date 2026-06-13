@@ -32,8 +32,13 @@
       {% include search.html %}
     {% endunless %}
 
-    {% include menu.html %}
-
+    <nav class="site-navigation" role="navigation">
+  <ul>
+    <li>
+      <a href="{{ '/' | prepend: site.baseurl }}">Home</a>
+    </li>
+  </ul>
+</nav>
     {% unless site.hide_credits %}
       <aside class="site-credits">
         <p>
