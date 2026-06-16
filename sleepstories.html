@@ -1,0 +1,242 @@
+---
+layout: null
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sleep Stories</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #e8f0f7;
+      min-height: 100vh;
+      padding: 2rem 1.5rem;
+    }
+
+    .back-link {
+      display: inline-block;
+      font-size: 13px;
+      color: #5a7a9a;
+      text-decoration: none;
+      margin-bottom: 2rem;
+      letter-spacing: 0.05em;
+    }
+
+    .back-link:hover { color: #1a3a5c; }
+
+    .page-title {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      color: #5a7a9a;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .page-heading {
+      font-size: 28px;
+      font-weight: 300;
+      color: #1a3a5c;
+      margin-bottom: 2.5rem;
+    }
+
+    .story-card {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .story-icon {
+      font-size: 40px;
+      margin-bottom: 1rem;
+    }
+
+    .story-name {
+      font-size: 22px;
+      font-weight: 500;
+      color: #1a3a5c;
+      margin-bottom: 0.5rem;
+    }
+
+    .story-desc {
+      font-size: 14px;
+      color: #7a9ab5;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    .progress-bar {
+      background: #e8f0f7;
+      border-radius: 8px;
+      height: 4px;
+      margin-bottom: 0.5rem;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      background: #6baed6;
+      height: 100%;
+      width: 0%;
+      border-radius: 8px;
+      transition: width 0.5s;
+    }
+
+    .time-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #a0b8cc;
+      margin-bottom: 1.5rem;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    .ctrl-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #6baed6;
+      font-size: 22px;
+      padding: 8px;
+    }
+
+    .play-btn {
+      width: 60px;
+      height: 60px;
+      background: #6baed6;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 24px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .play-btn:hover { background: #4a8fc2; }
+  </style>
+</head>
+<body>
+
+  <a href="{{ '/' | absolute_url }}" class="back-link">← Back to site</a>
+
+  <p class="page-title">Tonight's story</p>
+  <p class="page-heading">Close your eyes & drift off</p>
+
+  <div class="story-card">
+    <div class="story-icon">🌿</div>
+    <p class="story-name">The Secret Garden Lab</p>
+    <p class="story-desc">A relaxing sleep story that changes each night.</p>
+
+    <div class="progress-bar">
+      <div class="progress-fill" id="prog"></div>
+    </div>
+    <div class="time-row">
+      <span id="elapsed">0:00</span>
+      <span id="total">--:--</span>
+    </div>
+
+    <div class="controls">
+      <button class="ctrl-btn" aria-label="rewind 15 seconds" onclick="rewind()">↺</button>
+      <button class="play-btn" id="playbtn" aria-label="play" onclick="togglePlay()">▶</button>
+      <button class="ctrl-btn" aria-label="skip 30 seconds" onclick="skip()">↻</button>
+    </div>
+  </div>
+
+  <script>
+    var blocks = {
+      winddown: ['winddown1.mp3', 'winddown2.mp3'],
+      intro: ['intro1.mp3', 'intro2.mp3'],
+      story: ['story1.mp3', 'story2.mp3', 'story3.mp3', 'story4.mp3', 'story5.mp3']
+    };
+
+    function pick(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function shuffle(arr) {
+      var a = arr.slice();
+      for (var i = a.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = a[i]; a[i] = a[j]; a[j] = t;
+      }
+      return a;
+    }
+
+    var playlist = [
+      '/raf.github.io/assets/audio/' + pick(blocks.winddown),
+      '/raf.github.io/assets/audio/' + pick(blocks.intro),
+    ];
+    var storyPicks = shuffle(blocks.story).slice(0, 3);
+    storyPicks.forEach(function(f) {
+      playlist.push('/raf.github.io/assets/audio/' + f);
+    });
+
+    var current = 0;
+    var audio = new Audio();
+    var playing = false;
+    var totalDuration = 0;
+    var elapsed = 0;
+    var timer = null;
+
+    audio.src = playlist[current];
+    audio.addEventListener('ended', function() {
+      current++;
+      if (current < playlist.length) {
+        audio.src = playlist[current];
+        audio.play();
+      } else {
+        playing = false;
+        document.getElementById('playbtn').innerHTML = '▶';
+        clearInterval(timer);
+      }
+    });
+
+    function togglePlay() {
+      if (playing) {
+        audio.pause();
+        clearInterval(timer);
+        playing = false;
+        document.getElementById('playbtn').innerHTML = '▶';
+      } else {
+        audio.play();
+        playing = true;
+        document.getElementById('playbtn').innerHTML = '⏸';
+        timer = setInterval(tick, 1000);
+      }
+    }
+
+    function tick() {
+      elapsed++;
+      var m = Math.floor(elapsed / 60);
+      var s = elapsed % 60;
+      document.getElementById('elapsed').textContent = m + ':' + (s < 10 ? '0' : '') + s;
+    }
+
+    function rewind() {
+      audio.currentTime = Math.max(0, audio.currentTime - 15);
+      elapsed = Math.max(0, elapsed - 15);
+    }
+
+    function skip() {
+      audio.currentTime = Math.min(audio.duration, audio.currentTime + 30);
+      elapsed += 30;
+    }
+  </script>
+
+</body>
+</html>
