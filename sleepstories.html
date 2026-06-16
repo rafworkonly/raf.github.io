@@ -128,6 +128,22 @@ layout: null
     }
 
     .play-btn:hover { background: #4a8fc2; }
+
+    .dimmer-wrap {
+      max-width: 480px;
+      margin: 1.5rem auto 0;
+      text-align: center;
+    }
+
+    .dimmer-label {
+      font-size: 13px;
+      color: #5a7a9a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 0.75rem;
+    }
   </style>
 </head>
 <body>
@@ -157,7 +173,20 @@ layout: null
     </div>
   </div>
 
+  <div class="dimmer-wrap">
+    <p class="dimmer-label">
+      <span>👁</span> Dim the lights for better sleep quality!
+    </p>
+    <input type="range" min="0" max="90" value="0" id="dimmer" style="width: 100%;" oninput="dimScreen(this.value)">
+  </div>
+
+  <div id="overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 999;"></div>
+
   <script>
+    function dimScreen(val) {
+      document.getElementById('overlay').style.opacity = val / 100;
+    }
+
     var blocks = {
       winddown: ['winddown1.mp3', 'winddown2.mp3'],
       intro: ['intro1.mp3', 'intro2.mp3'],
@@ -189,7 +218,6 @@ layout: null
     var current = 0;
     var audio = new Audio();
     var playing = false;
-    var totalDuration = 0;
     var elapsed = 0;
     var timer = null;
 
